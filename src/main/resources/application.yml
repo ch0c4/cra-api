@@ -1,0 +1,42 @@
+micronaut:
+  application:
+    name: craApi
+  caches:
+    day-off:
+      charset: UTF-8
+  security:
+    endpoints:
+      login:
+        enabled: true
+        path: '/users/login'
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_GENERATOR_SIGNATURE_SECRET:geirgfapedzaea1d2345gvrzgvrz16fg01485}
+
+datasources:
+  default:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    db-type: mysql
+    dialect: MYSQL
+    jdbc-url: jdbc:mysql://localhost:3306/cra
+    username: root
+    password: azeqsd
+
+netty:
+  default:
+    allocator:
+      max-order: 3
+
+jpa:
+  default:
+    entity-scan:
+      packages: 'org.johan.cra.domains.entities'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
