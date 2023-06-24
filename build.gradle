@@ -1,0 +1,71 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.7.10"
+}
+
+version = "0.1"
+group = "org.johan.cra"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.cache:micronaut-cache-caffeine")
+    implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    implementation('org.mindrot:jbcrypt:0.4')
+
+    compileOnly("org.projectlombok:lombok")
+    compileOnly("org.graalvm.nativeimage:svm")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("mysql:mysql-connector-java")
+
+    testImplementation("io.micronaut.test:micronaut-test-rest-assured")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation('nl.jqno.equalsverifier:equalsverifier:3.14.2')
+
+    testRuntimeOnly("com.h2database:h2")
+}
+
+application {
+    mainClass.set("org.johan.cra.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative {
+    binaries {
+        main {
+            imageName.set("cra-api")
+            buildArgs.add("--verbose")
+        }
+    }
+}
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("org.johan.cra.*")
+    }
+}
+
+
+

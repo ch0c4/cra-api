@@ -1,0 +1,17 @@
+datasources:
+  default:
+    url: "jdbc:h2:mem:cra;MODE=MYSQL;INIT=runscript from 'classpath:/init_script.sql'"
+    username: sa
+    driver-class-name: org.h2.Driver
+
+
+jpa:
+  default:
+    entity-scan:
+      packages: org.johan.cra.domains.entities
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: none
+          charset_name: "UTF-8"
+        show_sql: true
